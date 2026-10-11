@@ -1,0 +1,5 @@
+.sites-local/
+.openai/*.zip
+site-release.zip
+screenshots/
+node_modules/
