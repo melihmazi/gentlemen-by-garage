@@ -1,4 +1,4 @@
-# Gentlemen by Garage — tasarım önizlemesi
+# Gentlemen by Garage
 
 Bağımlılık gerektirmeyen HTML, CSS ve JavaScript ile hazırlanmış hizmet ve randevu sayfası.
 
@@ -8,6 +8,23 @@ Hizmet, ücret, süre ve çalışma saatleri 11 Ekim 2026 tarihinde https://gent
 
 Randevu ekranında hizmet seçimi yapılır. Devam düğmesi seçilen hizmetin mevcut Dükkan Defteri sayfasına yönlendirir; personel, müsaitlik, iletişim ve kayıt işlemleri o sistemde tamamlanır. Mevcut sistemin kaynak kodu ve yönetim erişimi bu çalışma kapsamında bulunmadığından orijinal site değiştirilmemiştir.
 
-Temsili fotoğraf: https://images.unsplash.com/photo-1503951914875-452162b0f3f1 (Unsplash). Fotoğraf işletmenin gerçek mekânı veya ekibi olarak sunulmaz.
+Fotoğraflar kullanıcının talebiyle Batuhan Sincer’ın herkese açık Instagram profilinden alındı. Kaynak paylaşımlar:
 
-Doğrulama: JavaScript sözdizimi, masaüstü ve 390 px mobil görünüm, yatay taşma, hizmet seçimi ve özet güncellemesi, açılır fiyat detayları ve gerçek hizmet bağlantıları.
+- https://www.instagram.com/batuhansincer_/p/DeKMvd-DCc3/ — ana sayfa
+- https://www.instagram.com/batuhansincer_/p/DS5cqddDJZ1/ — salon bölümü
+
+Fotoğraf dosyaları yerel olarak saklanır; süresi dolabilen Instagram CDN adreslerine bağlı değildir. Paylaşımlara sayfadan ulaşılabilir.
+
+Manrope ve Cormorant Garamond fontları yerel sunulur. SIL Open Font License metinleri `dist/assets/fonts/` içinde bulunur.
+
+## Ücretsiz yayın
+
+GitHub deposu: https://github.com/melihmazi/gentlemen-by-garage
+
+GitHub Pages: https://melihmazi.github.io/gentlemen-by-garage/
+
+`.github/workflows/pages.yml`, `master` veya `main` dalına her push işleminde `dist/` klasörünü GitHub Pages’e yayınlar. Pages kaynağı GitHub Actions olarak ayarlanır. Kurulum veya derleme bağımlılığı yoktur.
+
+Varlık yolları görecelidir; GitHub Pages proje alt dizininde ve kök alan adında çalışır. Yerel Pages kontrolü için http://127.0.0.1:4173/gentlemen-by-garage/ adresi de kullanılabilir.
+
+Doğrulama: JavaScript sözdizimi; masaüstü ve mobil görünüm; yatay taşma; hizmet seçimi, boş özet ve fiyat güncellemesi; mobil menü; açılır hizmet ve soru detayları; GitHub Pages alt dizininde fotoğraf, font ve dosya yolları.

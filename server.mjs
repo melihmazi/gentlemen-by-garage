@@ -2,10 +2,11 @@ import http from 'node:http';
 import { readFile } from 'node:fs/promises';
 import { resolve, extname, sep } from 'node:path';
 const root = resolve('dist');
-const types = { '.html': 'text/html; charset=utf-8', '.css': 'text/css; charset=utf-8', '.js': 'text/javascript; charset=utf-8', '.jpg': 'image/jpeg', '.png': 'image/png', '.woff2': 'font/woff2' };
+const types = { '.html': 'text/html; charset=utf-8', '.css': 'text/css; charset=utf-8', '.js': 'text/javascript; charset=utf-8', '.jpg': 'image/jpeg', '.png': 'image/png', '.woff2': 'font/woff2', '.ttf': 'font/ttf', '.svg': 'image/svg+xml' };
 http.createServer(async (req, res) => {
   try {
-    const path = decodeURIComponent(new URL(req.url, 'http://localhost').pathname);
+    let path = decodeURIComponent(new URL(req.url, 'http://localhost').pathname);
+    if (path.startsWith('/gentlemen-by-garage/')) path = path.slice('/gentlemen-by-garage'.length);
     const file = resolve(root, '.' + (path === '/' ? '/index.html' : path));
     if (!file.startsWith(root + sep)) { res.writeHead(403); res.end(); return; }
     const data = await readFile(file);
