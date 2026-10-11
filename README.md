@@ -8,6 +8,8 @@ Hizmet, ücret, süre ve çalışma saatleri 11 Ekim 2026 tarihinde https://gent
 
 Ana sayfada klavyeyle de kullanılabilen hizmet sekmeleri ve büyütülebilen gerçek Instagram dönüşüm fotoğrafları bulunur. Randevu ekranında hizmet ve uygulama/uzman tercihi seçilerek fiyat özeti güncellenir. Tercihler rezervasyon sistemine otomatik aktarılmaz. Devam düğmesi seçilen hizmetin mevcut Dükkan Defteri sayfasına yönlendirir; personel, müsaitlik, iletişim ve kayıt işlemleri o sistemde tamamlanır. Mevcut sistemin kaynak kodu ve yönetim erişimi bu çalışma kapsamında bulunmadığından orijinal site değiştirilmemiştir.
 
+Mobil ana sayfada fiyatları gösteren üç hizmet bağlantısı fotoğraftan önce yer alır ve ilgili randevu hizmetini doğrudan seçer. İkonlar aynı çizgi stilindeki yerel SVG sembollerinden oluşur; dekoratif yıldızlar ve başlık halkası kaldırılmıştır. Menü, kapatma ve seçim kontrolleri mobil için yeniden düzenlenmiştir.
+
 Animasyonlar tarayıcının Web Animations API ve IntersectionObserver özellikleriyle, ek kütüphane olmadan çalışır: sıralı başlık açılışı, bir kez oynayan bölüm girişleri, hizmet/fiyat ve galeri geçişleri. Masaüstünde fotoğrafa hafif imleç eğimi ve kaydırma paralaksı uygulanır. Kaydırma ve imleç güncellemeleri requestAnimationFrame ile sınırlanır. prefers-reduced-motion ayarı başlangıçta ve değiştiğinde dikkate alınır; JavaScript veya animasyon desteği olmadan içerik görünür kalır.
 
 Fotoğraflar kullanıcının talebiyle Batuhan Sincer’ın herkese açık Instagram profilinden alındı. Kaynak paylaşımlar:

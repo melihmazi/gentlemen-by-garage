@@ -5,6 +5,7 @@ const services = [
   { id: 'vip', label: 'VIP Room', category: 'ÖZEL ALAN / BİREBİR HİZMET', title: 'Kendi alanın. Kendi zamanın.', summary: 'VIP Room saç & sakal', description: 'Özel VIP odada birebir saç ve sakal tasarımı. Sana ayrılan bu saate bir konuğun da eşlik edebilir.', tags: ['Özel VIP oda', 'Saç & sakal tasarımı', 'Bir konuk hakkı'], path: '/hizmet/vip-room-sac-sakal-kesim-hizmeti', variants: [{label:'Ekip üyesi · VIP Room',price:5000},{label:'Batuhan Sincer · VIP Room',price:6000}], details:'<ul><li>Yüz ve saç yapısına özel analiz</li><li>Kişiye özel kesim ve şekillendirme</li><li>Özel VIP odada birebir hizmet</li><li>Bir konuğunuz size eşlik edebilir</li></ul>' }
 ];
 const money = value => new Intl.NumberFormat('tr-TR').format(value) + ' TL';
+const actionIcon = '<svg class="icon" aria-hidden="true" focusable="false"><use href="#icon-arrow-right"></use></svg>';
 const motionPreference = window.matchMedia('(prefers-reduced-motion: reduce)');
 const pointerPreference = window.matchMedia('(hover: hover) and (pointer: fine) and (min-width: 761px)');
 const runningAnimations = new Map();
@@ -38,7 +39,7 @@ function showExperience(id, focus = false) {
     if (active && focus) tab.focus();
   });
   panel.setAttribute('aria-labelledby', 'tab-' + id);
-  panel.innerHTML = '<div class="panel-top"><span>' + service.category + '</span><span class="panel-duration">60 DK</span></div><h3>' + service.title + '</h3><p class="panel-description">' + service.description + '</p><div class="panel-features">' + service.tags.map(tag => '<span>' + tag + '</span>').join('') + '</div><div class="panel-bottom"><div class="panel-price"><strong>' + money(service.variants[0].price) + '</strong><small>' + (service.variants.length > 1 ? 'başlangıç fiyatı' : 'danışmanlık + ekip uygulaması') + '</small></div><a class="button dark" href="#randevu/' + id + '">Bu deneyimi seç <span aria-hidden="true">↗</span></a></div><p class="price-note">Uzman ve hizmet tercihine göre fiyat seçeneklerini sonraki ekranda görebilirsin. Güncel ücret randevu sisteminde teyit edilir.</p>';
+  panel.innerHTML = '<div class="panel-top"><span>' + service.category + '</span><span class="panel-duration">60 DK</span></div><h3>' + service.title + '</h3><p class="panel-description">' + service.description + '</p><div class="panel-features">' + service.tags.map(tag => '<span>' + tag + '</span>').join('') + '</div><div class="panel-bottom"><div class="panel-price"><strong>' + money(service.variants[0].price) + '</strong><small>' + (service.variants.length > 1 ? 'başlangıç fiyatı' : 'danışmanlık + ekip uygulaması') + '</small></div><a class="button dark" href="#randevu/' + id + '">Bu deneyimi seç <span aria-hidden="true">' + actionIcon + '</span></a></div><p class="price-note">Uzman ve hizmet tercihine göre fiyat seçeneklerini sonraki ekranda görebilirsin. Güncel ücret randevu sisteminde teyit edilir.</p>';
   [...panel.children].forEach((child, index) => animateElement(child, [{opacity:0,transform:'translateY(12px)'},{opacity:1,transform:'translateY(0)'}], {duration:420,delay:index * 35}));
 }
 tabs.forEach((tab, index) => {
