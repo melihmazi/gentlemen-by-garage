@@ -17,4 +17,18 @@ h1,h2{font-weight:800}.hero h1{font-weight:800}.hero-photo{height:clamp(390px,35
 @media(min-width:1500px){.hero-photo{min-height:0}}
 @media(max-width:760px){.hero-photo{height:400px}.hero-copy{padding-bottom:0}.studio-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.studio-grid>*{min-width:0}.gallery-main{grid-column:1/-1;grid-row:auto;max-height:600px}.gallery-main img{min-height:0}.studio-manifesto{min-height:340px}.gallery-secondary{height:340px;width:100%;aspect-ratio:auto}.gallery-secondary img{min-height:0;object-fit:cover}.gallery-caption{font-size:8px}}
 @media(max-width:370px){.hero-photo{height:350px}}
-@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*:before,*:after{transition:none!important;animation:none!important}}
+/* Motion stays on transforms and opacity; the static layout also works without JavaScript. */
+body:before{content:'';position:fixed;top:0;left:0;right:0;height:2px;background:var(--lime);transform:scaleX(var(--scroll-progress,0));transform-origin:left;z-index:60;pointer-events:none}
+.hero-line{display:block;overflow:hidden;padding-top:.19em;margin-top:-.19em;padding-bottom:.04em;margin-bottom:-.04em}
+.hero-word{display:block}
+.hero-stage{perspective:1200px}
+.hero-photo{transform:rotateX(var(--photo-x,0deg)) rotateY(var(--photo-y,0deg));transition:transform .45s cubic-bezier(.22,1,.36,1)}
+.hero-photo img{transform:translateY(var(--photo-shift,0px)) scale(1.08)}
+.button>span,.nav-book>span,.text-link>span,.service-book>span,.round-link>span{display:inline-block;transition:transform .35s cubic-bezier(.22,1,.36,1)}
+.experience-tabs button{position:relative}.experience-tabs button:after{content:'';position:absolute;left:0;right:0;bottom:-1px;height:2px;background:var(--ink);transform:scaleX(0);transform-origin:left;transition:transform .4s cubic-bezier(.22,1,.36,1)}.experience-tabs button[aria-selected=true]:after{transform:scaleX(1)}
+.experience-tabs button>span:last-child{transition:transform .4s cubic-bezier(.22,1,.36,1)}
+.booking-option{transition:border-color .25s,background .25s,transform .3s}.variant-option{transition:background .25s}.variant-option:has(input:checked){background:rgba(195,239,135,.035)}
+@media(hover:hover) and (pointer:fine){.button:hover>span,.nav-book:hover>span,.text-link:hover>span{transform:translate(3px,-3px)}.round-link:hover>span{transform:translateY(4px)}.booking-option:hover{transform:translateY(-3px);border-color:#77896a}.gallery-tile:hover .gallery-caption>span:last-child{transform:translate(2px,-2px)}.gallery-caption>span:last-child{transition:transform .3s}}
+@media(max-width:760px){.hero-photo img{transform:none}.menu-open nav{animation:menu-reveal .3s cubic-bezier(.22,1,.36,1) both}}
+@keyframes menu-reveal{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:translateY(0)}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*:before,*:after{transition:none!important;animation:none!important}.hero-photo,.hero-photo img{transform:none!important}}

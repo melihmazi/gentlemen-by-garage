@@ -5,6 +5,19 @@ const services = [
   { id: 'vip', label: 'VIP Room', category: 'ÖZEL ALAN / BİREBİR HİZMET', title: 'Kendi alanın. Kendi zamanın.', summary: 'VIP Room saç & sakal', description: 'Özel VIP odada birebir saç ve sakal tasarımı. Sana ayrılan bu saate bir konuğun da eşlik edebilir.', tags: ['Özel VIP oda', 'Saç & sakal tasarımı', 'Bir konuk hakkı'], path: '/hizmet/vip-room-sac-sakal-kesim-hizmeti', variants: [{label:'Ekip üyesi · VIP Room',price:5000},{label:'Batuhan Sincer · VIP Room',price:6000}], details:'<ul><li>Yüz ve saç yapısına özel analiz</li><li>Kişiye özel kesim ve şekillendirme</li><li>Özel VIP odada birebir hizmet</li><li>Bir konuğunuz size eşlik edebilir</li></ul>' }
 ];
 const money = value => new Intl.NumberFormat('tr-TR').format(value) + ' TL';
+const motionPreference = window.matchMedia('(prefers-reduced-motion: reduce)');
+const pointerPreference = window.matchMedia('(hover: hover) and (pointer: fine) and (min-width: 761px)');
+const runningAnimations = new Map();
+const motionEase = 'cubic-bezier(.22,1,.36,1)';
+function animateElement(element, keyframes, timing = {}) {
+  if (!element || motionPreference.matches || !element.animate) return;
+  runningAnimations.get(element)?.cancel();
+  const animation = element.animate(keyframes, {duration:600, easing:motionEase, fill:'backwards', ...timing});
+  runningAnimations.set(element, animation);
+  animation.finished.then(() => {
+    if (runningAnimations.get(element) === animation) runningAnimations.delete(element);
+  }).catch(() => {});
+}
 let selected = null;
 let variantIndex = 0;
 const options = document.querySelector('#service-options');
@@ -26,6 +39,7 @@ function showExperience(id, focus = false) {
   });
   panel.setAttribute('aria-labelledby', 'tab-' + id);
   panel.innerHTML = '<div class="panel-top"><span>' + service.category + '</span><span class="panel-duration">60 DK</span></div><h3>' + service.title + '</h3><p class="panel-description">' + service.description + '</p><div class="panel-features">' + service.tags.map(tag => '<span>' + tag + '</span>').join('') + '</div><div class="panel-bottom"><div class="panel-price"><strong>' + money(service.variants[0].price) + '</strong><small>' + (service.variants.length > 1 ? 'başlangıç fiyatı' : 'danışmanlık + ekip uygulaması') + '</small></div><a class="button dark" href="#randevu/' + id + '">Bu deneyimi seç <span aria-hidden="true">↗</span></a></div><p class="price-note">Uzman ve hizmet tercihine göre fiyat seçeneklerini sonraki ekranda görebilirsin. Güncel ücret randevu sisteminde teyit edilir.</p>';
+  [...panel.children].forEach((child, index) => animateElement(child, [{opacity:0,transform:'translateY(12px)'},{opacity:1,transform:'translateY(0)'}], {duration:420,delay:index * 35}));
 }
 tabs.forEach((tab, index) => {
   tab.addEventListener('click', () => showExperience(tab.dataset.experience));
@@ -53,6 +67,7 @@ function updateSummary() {
   continueBooking.href = origin + service.path;
   continueBooking.removeAttribute('aria-disabled');
   continueBooking.removeAttribute('tabindex');
+  animateElement(document.querySelector('.summary-price strong'), [{opacity:.35,transform:'translateY(8px)'},{opacity:1,transform:'translateY(0)'}], {duration:300});
 }
 function selectService(id) {
   const service = services.find(s => s.id === id);
@@ -65,6 +80,7 @@ function selectService(id) {
     document.querySelector('#booking-details').innerHTML = '<h3>Bu deneyime dahil</h3>' + service.details;
   }
   updateSummary();
+  animateElement(document.querySelector('#preference-section'), [{opacity:0,transform:'translateY(12px)'},{opacity:1,transform:'translateY(0)'}], {duration:400});
 }
 options.addEventListener('change', event => { if (event.target.name === 'service') selectService(event.target.value); });
 variants.addEventListener('change', event => { if (event.target.name === 'variant') { variantIndex = Number(event.target.value); updateSummary(); } });
@@ -90,6 +106,11 @@ function route() {
   } else if (hash && hash !== '#') {
     requestAnimationFrame(() => document.getElementById(hash.slice(1))?.scrollIntoView());
   } else { window.scrollTo({top:0,behavior:'instant'}); }
+  if (booking) {
+    animateElement(document.querySelector('.booking-intro'), [{opacity:0,transform:'translateY(16px)'},{opacity:1,transform:'translateY(0)'}], {duration:500});
+    animateElement(document.querySelector('.booking-layout'), [{opacity:0,transform:'translateY(18px)'},{opacity:1,transform:'translateY(0)'}], {duration:550,delay:100});
+  }
+  requestScrollUpdate();
 }
 const gallery = [
   {image:'./assets/style-transformation.jpg',alt:'Batuhan Sincer’ın paylaştığı saç ve sakal tasarımının önce ve sonraki görünümü',source:'https://www.instagram.com/batuhansincer_/reel/DeUdq9jsVJn/'},
@@ -104,12 +125,94 @@ document.querySelectorAll('[data-gallery]').forEach(button => button.addEventLis
   document.querySelector('#gallery-image').alt = item.alt;
   document.querySelector('#gallery-source').href = item.source;
   dialog.showModal();
+  animateElement(dialog, [{opacity:0,transform:'translateY(20px) scale(.96)'},{opacity:1,transform:'translateY(0) scale(1)'}], {duration:400});
   document.body.classList.add('gallery-open');
 }));
 document.querySelector('#close-gallery').addEventListener('click', () => dialog.close());
 dialog.addEventListener('click', event => { if (event.target === dialog) { const r = dialog.getBoundingClientRect(); if (event.clientX < r.left || event.clientX > r.right || event.clientY < r.top || event.clientY > r.bottom) dialog.close(); } });
 dialog.addEventListener('close', () => { document.body.classList.remove('gallery-open'); galleryTrigger?.focus(); });
+let scrollFrame = null;
+function requestScrollUpdate() {
+  if (scrollFrame !== null) return;
+  scrollFrame = requestAnimationFrame(() => {
+    scrollFrame = null;
+    const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+    document.documentElement.style.setProperty('--scroll-progress', String(maxScroll > 0 ? Math.min(1,Math.max(0,window.scrollY / maxScroll)) : 0));
+    const photo = document.querySelector('.hero-photo');
+    const canMove = pointerPreference.matches && !motionPreference.matches && !document.body.classList.contains('is-booking');
+    photo.style.setProperty('--photo-shift', canMove ? Math.min(18,window.scrollY * .055) + 'px' : '0px');
+  });
+}
+window.addEventListener('scroll', requestScrollUpdate, {passive:true});
+window.addEventListener('resize', requestScrollUpdate, {passive:true});
+const photo = document.querySelector('.hero-photo');
+let pointerFrame = null;
+let photoBounds;
+let pointerPosition;
+function resetPhotoTilt() {
+  if (pointerFrame !== null) cancelAnimationFrame(pointerFrame);
+  pointerFrame = null;
+  photo.style.setProperty('--photo-x','0deg');
+  photo.style.setProperty('--photo-y','0deg');
+}
+photo.addEventListener('pointerenter', () => { photoBounds = photo.getBoundingClientRect(); });
+photo.addEventListener('pointermove', event => {
+  if (!pointerPreference.matches || motionPreference.matches || !photoBounds) return;
+  pointerPosition = {x:event.clientX,y:event.clientY};
+  if (pointerFrame !== null) return;
+  pointerFrame = requestAnimationFrame(() => {
+    pointerFrame = null;
+    const x = Math.max(-.5,Math.min(.5,(pointerPosition.x - photoBounds.left) / photoBounds.width - .5));
+    const y = Math.max(-.5,Math.min(.5,(pointerPosition.y - photoBounds.top) / photoBounds.height - .5));
+    photo.style.setProperty('--photo-x',(-y * 4) + 'deg');
+    photo.style.setProperty('--photo-y',(x * 4) + 'deg');
+  });
+});
+photo.addEventListener('pointerleave', resetPhotoTilt);
+photo.addEventListener('pointercancel', resetPhotoTilt);
+pointerPreference.addEventListener('change', () => { resetPhotoTilt(); requestScrollUpdate(); });
+
+function playHeroEntrance() {
+  document.querySelectorAll('.hero-word').forEach((word,index) => animateElement(word, [{transform:'translateY(115%)'},{transform:'translateY(0)'}], {duration:950,delay:index * 110}));
+  animateElement(document.querySelector('.hero-top'), [{opacity:0,transform:'translateY(10px)'},{opacity:1,transform:'translateY(0)'}], {duration:600});
+  animateElement(document.querySelector('.hero-stage'), [{opacity:0,transform:'translateY(28px) scale(.97)'},{opacity:1,transform:'translateY(0) scale(1)'}], {duration:1000,delay:180});
+  animateElement(document.querySelector('.hero-bottom'), [{opacity:0,transform:'translateY(15px)'},{opacity:1,transform:'translateY(0)'}], {duration:750,delay:380});
+}
+let revealObserver;
+const revealed = new WeakSet();
+const revealGroups = [
+  ['.hero', 0], ['.section-heading',0], ['.experience-tabs',0], ['.experience-panel',100],
+  ['.studio-heading',0], ['.gallery-main',0], ['.studio-manifesto',100], ['.gallery-secondary',180],
+  ['.faq-heading',0], ['.faq-list',100], ['.visit-top',0], ['.visit-cta',100], ['.visit-bottom',180]
+];
+function observeSections() {
+  revealObserver?.disconnect();
+  if (motionPreference.matches || !('IntersectionObserver' in window)) return;
+  revealObserver = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (!entry.isIntersecting) return;
+      const element = entry.target;
+      revealObserver.unobserve(element);
+      if (revealed.has(element)) return;
+      revealed.add(element);
+      if (element.classList.contains('hero')) { playHeroEntrance(); return; }
+      const delay = revealGroups.find(([selector]) => element.matches(selector))?.[1] || 0;
+      animateElement(element, [{opacity:0,transform:'translateY(24px)'},{opacity:1,transform:'translateY(0)'}], {duration:750,delay});
+    });
+  }, {threshold:.08,rootMargin:'0px 0px -35px 0px'});
+  revealGroups.forEach(([selector]) => document.querySelectorAll(selector).forEach(element => {
+    if (!revealed.has(element)) revealObserver.observe(element);
+  }));
+}
+motionPreference.addEventListener('change', () => {
+  runningAnimations.forEach(animation => animation.cancel());
+  runningAnimations.clear();
+  resetPhotoTilt();
+  requestScrollUpdate();
+  observeSections();
+});
 window.addEventListener('hashchange', route);
 showExperience('kesim');
 selectService(null);
 route();
+observeSections();
