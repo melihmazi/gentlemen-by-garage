@@ -6,16 +6,18 @@ Bağımlılık gerektirmeyen HTML, CSS ve JavaScript ile hazırlanmış hizmet v
 
 Hizmet, ücret, süre ve çalışma saatleri 11 Ekim 2026 tarihinde https://gentlemen-by-garage.ddgrup.com.tr sayfasından doğrulandı. Fiyatlar canlı olarak senkronize edilmez.
 
-Randevu ekranında hizmet seçimi yapılır. Devam düğmesi seçilen hizmetin mevcut Dükkan Defteri sayfasına yönlendirir; personel, müsaitlik, iletişim ve kayıt işlemleri o sistemde tamamlanır. Mevcut sistemin kaynak kodu ve yönetim erişimi bu çalışma kapsamında bulunmadığından orijinal site değiştirilmemiştir.
+Ana sayfada klavyeyle de kullanılabilen hizmet sekmeleri ve büyütülebilen gerçek Instagram dönüşüm fotoğrafları bulunur. Randevu ekranında hizmet ve uygulama/uzman tercihi seçilerek fiyat özeti güncellenir. Tercihler rezervasyon sistemine otomatik aktarılmaz. Devam düğmesi seçilen hizmetin mevcut Dükkan Defteri sayfasına yönlendirir; personel, müsaitlik, iletişim ve kayıt işlemleri o sistemde tamamlanır. Mevcut sistemin kaynak kodu ve yönetim erişimi bu çalışma kapsamında bulunmadığından orijinal site değiştirilmemiştir.
 
 Fotoğraflar kullanıcının talebiyle Batuhan Sincer’ın herkese açık Instagram profilinden alındı. Kaynak paylaşımlar:
 
 - https://www.instagram.com/batuhansincer_/p/DeKMvd-DCc3/ — ana sayfa
 - https://www.instagram.com/batuhansincer_/p/DS5cqddDJZ1/ — salon bölümü
+- https://www.instagram.com/batuhansincer_/reel/DeUdq9jsVJn/ — saç ve sakal dönüşümü
+- https://www.instagram.com/batuhansincer_/reel/DcbcWoysJGn/ — saç formu dönüşümü
 
 Fotoğraf dosyaları yerel olarak saklanır; süresi dolabilen Instagram CDN adreslerine bağlı değildir. Paylaşımlara sayfadan ulaşılabilir.
 
-Manrope ve Cormorant Garamond fontları yerel sunulur. SIL Open Font License metinleri `dist/assets/fonts/` içinde bulunur.
+Yeni tasarımda Manrope fontu yerel sunulur. SIL Open Font License metinleri `dist/assets/fonts/` içinde bulunur.
 
 ## Ücretsiz yayın
 
